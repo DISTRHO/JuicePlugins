@@ -16,6 +16,9 @@ TARGET_DIR = ../../bin
 BUILD_C_FLAGS   += -I.
 BUILD_CXX_FLAGS += -I. -I../../dpf/distrho -I../../dpf/dgl
 
+BUILD_CXX_FLAGS += -DHAVE_DGL
+BUILD_CXX_FLAGS += -DHAVE_JACK
+
 # --------------------------------------------------------------
 # Set plugin binary file targets
 
