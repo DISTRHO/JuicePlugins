@@ -16,6 +16,9 @@
  */
 
 #include "TriggerJuiceUI.hpp"
+#include "TriggerJuicePlugin.hpp"
+
+#include "TriggerJuiceArtwork.hpp"
 
 using DGL::Point;
 
@@ -24,7 +27,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 TriggerJuiceUI::TriggerJuiceUI()
-    : UI(),
+    : UI(TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight),
       fAboutWindow(this)
 {
     // background
@@ -94,13 +97,13 @@ TriggerJuiceUI::TriggerJuiceUI()
     fSliderMS->setCallback(this);
 
     // set default values
-    d_programChanged(0);
+    programLoaded(0);
 }
 
 // -----------------------------------------------------------------------
 // DSP Callbacks
 
-void TriggerJuiceUI::d_parameterChanged(uint32_t index, float value)
+void TriggerJuiceUI::parameterChanged(uint32_t index, float value)
 {
     switch (index)
     {
@@ -122,7 +125,7 @@ void TriggerJuiceUI::d_parameterChanged(uint32_t index, float value)
     }
 }
 
-void TriggerJuiceUI::d_programChanged(uint32_t index)
+void TriggerJuiceUI::programLoaded(uint32_t index)
 {
     if (index != 0)
         return;
@@ -149,55 +152,55 @@ void TriggerJuiceUI::imageButtonClicked(ImageButton* button, int)
 void TriggerJuiceUI::imageKnobDragStarted(ImageKnob* knob)
 {
     if (knob == fKnobAttack)
-        d_editParameter(TriggerJuicePlugin::paramAttack, true);
+        editParameter(TriggerJuicePlugin::paramAttack, true);
     else if (knob == fKnobRelease)
-        d_editParameter(TriggerJuicePlugin::paramRelease, true);
+        editParameter(TriggerJuicePlugin::paramRelease, true);
 }
 
 void TriggerJuiceUI::imageKnobDragFinished(ImageKnob* knob)
 {
     if (knob == fKnobAttack)
-        d_editParameter(TriggerJuicePlugin::paramAttack, false);
+        editParameter(TriggerJuicePlugin::paramAttack, false);
     else if (knob == fKnobRelease)
-        d_editParameter(TriggerJuicePlugin::paramRelease, false);
+        editParameter(TriggerJuicePlugin::paramRelease, false);
 }
 
 void TriggerJuiceUI::imageKnobValueChanged(ImageKnob* knob, float value)
 {
     if (knob == fKnobAttack)
-        d_setParameterValue(TriggerJuicePlugin::paramAttack, value);
+        setParameterValue(TriggerJuicePlugin::paramAttack, value);
     else if (knob == fKnobRelease)
-        d_setParameterValue(TriggerJuicePlugin::paramRelease, value);
+        setParameterValue(TriggerJuicePlugin::paramRelease, value);
 }
 
 void TriggerJuiceUI::imageSliderDragStarted(ImageSlider* slider)
 {
     if (slider == fSliderRev)
-        d_editParameter(TriggerJuicePlugin::paramRev, true);
+        editParameter(TriggerJuicePlugin::paramRev, true);
     else if (slider == fSliderSplit)
-        d_editParameter(TriggerJuicePlugin::paramSplit, true);
+        editParameter(TriggerJuicePlugin::paramSplit, true);
     else if (slider == fSliderMS)
-        d_editParameter(TriggerJuicePlugin::paramMS, true);
+        editParameter(TriggerJuicePlugin::paramMS, true);
 }
 
 void TriggerJuiceUI::imageSliderDragFinished(ImageSlider* slider)
 {
     if (slider == fSliderRev)
-        d_editParameter(TriggerJuicePlugin::paramRev, false);
+        editParameter(TriggerJuicePlugin::paramRev, false);
     else if (slider == fSliderSplit)
-        d_editParameter(TriggerJuicePlugin::paramSplit, false);
+        editParameter(TriggerJuicePlugin::paramSplit, false);
     else if (slider == fSliderMS)
-        d_editParameter(TriggerJuicePlugin::paramMS, false);
+        editParameter(TriggerJuicePlugin::paramMS, false);
 }
 
 void TriggerJuiceUI::imageSliderValueChanged(ImageSlider* slider, float value)
 {
     if (slider == fSliderRev)
-        d_setParameterValue(TriggerJuicePlugin::paramRev, value);
+        setParameterValue(TriggerJuicePlugin::paramRev, value);
     else if (slider == fSliderSplit)
-        d_setParameterValue(TriggerJuicePlugin::paramSplit, value);
+        setParameterValue(TriggerJuicePlugin::paramSplit, value);
     else if (slider == fSliderMS)
-        d_setParameterValue(TriggerJuicePlugin::paramMS, value);
+        setParameterValue(TriggerJuicePlugin::paramMS, value);
 }
 
 void TriggerJuiceUI::onDisplay()

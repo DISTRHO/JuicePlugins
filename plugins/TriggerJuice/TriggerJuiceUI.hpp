@@ -20,14 +20,7 @@
 
 #include "DistrhoUI.hpp"
 
-#include "Geometry.hpp"
-#include "ImageAboutWindow.hpp"
-#include "ImageButton.hpp"
-#include "ImageKnob.hpp"
-#include "ImageSlider.hpp"
-
-#include "TriggerJuiceArtwork.hpp"
-#include "TriggerJuicePlugin.hpp"
+#include "ImageWidgets.hpp"
 
 using DGL::Image;
 using DGL::ImageAboutWindow;
@@ -50,23 +43,10 @@ public:
 
 protected:
     // -------------------------------------------------------------------
-    // Information
-
-    uint d_getWidth() const noexcept override
-    {
-        return TriggerJuiceArtwork::backgroundWidth;
-    }
-
-    uint d_getHeight() const noexcept override
-    {
-        return TriggerJuiceArtwork::backgroundHeight;
-    }
-
-    // -------------------------------------------------------------------
     // DSP Callbacks
 
-    void d_parameterChanged(uint32_t index, float value) override;
-    void d_programChanged(uint32_t index) override;
+    void parameterChanged(uint32_t index, float value) override;
+    void programLoaded(uint32_t index) override;
 
     // -------------------------------------------------------------------
     // Widget Callbacks

@@ -20,16 +20,14 @@
 
 #include "DistrhoUI.hpp"
 
-#include "ImageAboutWindow.hpp"
-#include "ImageButton.hpp"
-#include "ImageKnob.hpp"
+#include "ImageWidgets.hpp"
 
 #include "WobbleJuiceArtwork.hpp"
 
-using DGL::Image;
-using DGL::ImageAboutWindow;
-using DGL::ImageButton;
-using DGL::ImageKnob;
+using DGL_NAMESPACE::Image;
+using DGL_NAMESPACE::ImageAboutWindow;
+using DGL_NAMESPACE::ImageButton;
+using DGL_NAMESPACE::ImageKnob;
 
 START_NAMESPACE_DISTRHO
 
@@ -44,23 +42,10 @@ public:
 
 protected:
     // -------------------------------------------------------------------
-    // Information
-
-    uint d_getWidth() const noexcept override
-    {
-        return WobbleJuiceArtwork::backgroundWidth;
-    }
-
-    uint d_getHeight() const noexcept override
-    {
-        return WobbleJuiceArtwork::backgroundHeight;
-    }
-
-    // -------------------------------------------------------------------
     // DSP Callbacks
 
-    void d_parameterChanged(uint32_t index, float value) override;
-    void d_programChanged(uint32_t index) override;
+    void parameterChanged(uint32_t index, float value) override;
+    void programLoaded(uint32_t index) override;
 
     // -------------------------------------------------------------------
     // Widget Callbacks

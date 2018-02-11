@@ -31,21 +31,21 @@ StutterJuicePlugin::StutterJuicePlugin()
 {
 	
     // set default values
-    d_setProgram(0);
+    loadProgram(0);
 	
     // reset
-    d_deactivate();
+    deactivate();
 }
 
 
 // -----------------------------------------------------------------------
 // Init
 
-void StutterJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
+void StutterJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
 {
 
 	if (index<26) {
-		parameter.hints      = PARAMETER_IS_AUTOMABLE;
+		parameter.hints      = kParameterIsAutomable;
 		parameter.name       = "";
 		parameter.symbol     = "";
 		parameter.unit       = "";
@@ -53,7 +53,7 @@ void StutterJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
 		parameter.ranges.min = 0.0f;
 		parameter.ranges.max = 1.0f;
 	} else {
-		parameter.hints      = PARAMETER_IS_OUTPUT;
+		parameter.hints      = kParameterIsOutput;
 		parameter.name       = "";
 		parameter.symbol     = "";
 		parameter.unit       = "";
@@ -63,7 +63,7 @@ void StutterJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
 	}
 }
 
-void StutterJuicePlugin::d_initProgramName(uint32_t index, d_string& programName)
+void StutterJuicePlugin::initProgramName(uint32_t index, String& programName)
 {
     if (index != 0)
         return;
@@ -74,7 +74,7 @@ void StutterJuicePlugin::d_initProgramName(uint32_t index, d_string& programName
 // -----------------------------------------------------------------------
 // Internal data
 
-float StutterJuicePlugin::d_getParameterValue(uint32_t index) const
+float StutterJuicePlugin::getParameterValue(uint32_t index) const
 {
 	if (index<26) {
 		int module = index/3;
@@ -85,7 +85,7 @@ float StutterJuicePlugin::d_getParameterValue(uint32_t index) const
 	}
 }
 
-void StutterJuicePlugin::d_setParameterValue(uint32_t index, float value)
+void StutterJuicePlugin::setParameterValue(uint32_t index, float value)
 {
 	int module = index/3;
 	int param = index%3;
@@ -96,7 +96,7 @@ void StutterJuicePlugin::d_setParameterValue(uint32_t index, float value)
 	}
 }
 
-void StutterJuicePlugin::d_setProgram(uint32_t index)
+void StutterJuicePlugin::loadProgram(uint32_t index)
 {
 	
 	if (index != 0)
@@ -118,27 +118,27 @@ void StutterJuicePlugin::d_setProgram(uint32_t index)
 	modules[5] = new CFilter();
 	
 	for (int module=0; module<6; module++) {
-		modules[module]->setSampleRate(d_getSampleRate());
+		modules[module]->setSampleRate(getSampleRate());
 		modules[module]->initBuffers();
 	}
 	
-	d_activate();
+	activate();
 
 }
 
 // -----------------------------------------------------------------------
 // Process
 
-void StutterJuicePlugin::d_activate()
+void StutterJuicePlugin::activate()
 {
 
 }
 
-void StutterJuicePlugin::d_deactivate()
+void StutterJuicePlugin::deactivate()
 {
 }			
 
-void StutterJuicePlugin::d_run(const float** inputs, float** outputs, uint32_t frames, const MidiEvent* midiEvents, uint32_t midiEventCount)
+void StutterJuicePlugin::run(const float** inputs, float** outputs, uint32_t frames, const MidiEvent* midiEvents, uint32_t midiEventCount)
 {
 
 	
@@ -167,9 +167,12 @@ void StutterJuicePlugin::d_run(const float** inputs, float** outputs, uint32_t f
 		int userNote = 48;//TODO
 		int range=6;
 
-		int mType = midiEvents[i].buf[0] & 0xF0;
-		int mChan = midiEvents[i].buf[0] & 0x0F;
-		int mNum = midiEvents[i].buf[1];
+		if (midiEvents[i].size > MidiEvent::kDataSize)
+			continue;
+
+		int mType = midiEvents[i].data[0] & 0xF0;
+		int mChan = midiEvents[i].data[0] & 0x0F;
+		int mNum = midiEvents[i].data[1];
 		
 		if (mNum>=userNote && mNum<userNote+range) {
 			int module = mNum-userNote;

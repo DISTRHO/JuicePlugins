@@ -27,9 +27,9 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 PowerJuiceUI::PowerJuiceUI()
-    : UI(),
+    : UI(PowerJuiceArtwork::backgroundWidth, PowerJuiceArtwork::backgroundHeight),
       fAboutWindow(this),
-      dsp((PowerJuicePlugin*)d_getPluginInstancePointer())
+      dsp((PowerJuicePlugin*)getPluginInstancePointer())
 {
     DISTRHO_SAFE_ASSERT(dsp != nullptr);
 
@@ -100,13 +100,13 @@ PowerJuiceUI::PowerJuiceUI()
     fButtonAbout->setCallback(this);
 
     // set default values
-    d_programChanged(0);
+    programLoaded(0);
 }
 
 // -----------------------------------------------------------------------
 // DSP Callbacks
 
-void PowerJuiceUI::d_parameterChanged(uint32_t index, float value)
+void PowerJuiceUI::parameterChanged(uint32_t index, float value)
 {
     switch (index)
     {
@@ -131,7 +131,7 @@ void PowerJuiceUI::d_parameterChanged(uint32_t index, float value)
     }
 }
 
-void PowerJuiceUI::d_programChanged(uint32_t index)
+void PowerJuiceUI::programLoaded(uint32_t index)
 {
     if (index != 0)
         return;
@@ -159,53 +159,53 @@ void PowerJuiceUI::imageButtonClicked(ImageButton* button, int)
 void PowerJuiceUI::imageKnobDragStarted(ImageKnob* knob)
 {
     if (knob == fKnobAttack)
-        d_editParameter(PowerJuicePlugin::paramAttack, true);
+        editParameter(PowerJuicePlugin::paramAttack, true);
     else if (knob == fKnobRelease)
-        d_editParameter(PowerJuicePlugin::paramRelease, true);
+        editParameter(PowerJuicePlugin::paramRelease, true);
     else if (knob == fKnobThreshold)
-        d_editParameter(PowerJuicePlugin::paramThreshold, true);
+        editParameter(PowerJuicePlugin::paramThreshold, true);
     else if (knob == fKnobRatio)
-        d_editParameter(PowerJuicePlugin::paramRatio, true);
+        editParameter(PowerJuicePlugin::paramRatio, true);
     else if (knob == fKnobMakeup)
-        d_editParameter(PowerJuicePlugin::paramMakeup, true);
+        editParameter(PowerJuicePlugin::paramMakeup, true);
     else if (knob == fKnobMix)
-        d_editParameter(PowerJuicePlugin::paramMix, true);
+        editParameter(PowerJuicePlugin::paramMix, true);
 }
 
 void PowerJuiceUI::imageKnobDragFinished(ImageKnob* knob)
 {
     if (knob == fKnobAttack)
-        d_editParameter(PowerJuicePlugin::paramAttack, false);
+        editParameter(PowerJuicePlugin::paramAttack, false);
     else if (knob == fKnobRelease)
-        d_editParameter(PowerJuicePlugin::paramRelease, false);
+        editParameter(PowerJuicePlugin::paramRelease, false);
     else if (knob == fKnobThreshold)
-        d_editParameter(PowerJuicePlugin::paramThreshold, false);
+        editParameter(PowerJuicePlugin::paramThreshold, false);
     else if (knob == fKnobRatio)
-        d_editParameter(PowerJuicePlugin::paramRatio, false);
+        editParameter(PowerJuicePlugin::paramRatio, false);
     else if (knob == fKnobMakeup)
-        d_editParameter(PowerJuicePlugin::paramMakeup, false);
+        editParameter(PowerJuicePlugin::paramMakeup, false);
     else if (knob == fKnobMix)
-        d_editParameter(PowerJuicePlugin::paramMix, false);
+        editParameter(PowerJuicePlugin::paramMix, false);
 }
 
 void PowerJuiceUI::imageKnobValueChanged(ImageKnob* knob, float value)
 {
     if (knob == fKnobAttack) 
-        d_setParameterValue(PowerJuicePlugin::paramAttack, value);
+        setParameterValue(PowerJuicePlugin::paramAttack, value);
     else if (knob == fKnobRelease)
-        d_setParameterValue(PowerJuicePlugin::paramRelease, value);
+        setParameterValue(PowerJuicePlugin::paramRelease, value);
     else if (knob == fKnobThreshold)
-        d_setParameterValue(PowerJuicePlugin::paramThreshold, value);
+        setParameterValue(PowerJuicePlugin::paramThreshold, value);
     else if (knob == fKnobRatio)
-        d_setParameterValue(PowerJuicePlugin::paramRatio, value);
+        setParameterValue(PowerJuicePlugin::paramRatio, value);
     else if (knob == fKnobMakeup)
-        d_setParameterValue(PowerJuicePlugin::paramMakeup, value);
+        setParameterValue(PowerJuicePlugin::paramMakeup, value);
     else if (knob == fKnobMix)
-        d_setParameterValue(PowerJuicePlugin::paramMix, value);
+        setParameterValue(PowerJuicePlugin::paramMix, value);
 
 }
 
-void PowerJuiceUI::d_uiIdle()
+void PowerJuiceUI::uiIdle()
 {
     if (dsp != nullptr && dsp->repaintNeeded())
         repaint();

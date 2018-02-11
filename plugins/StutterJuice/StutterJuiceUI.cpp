@@ -17,6 +17,8 @@
 
 #include "StutterJuiceUI.hpp"
 
+#include "StutterJuiceArtwork.hpp"
+
 using DGL::Point;
 
 START_NAMESPACE_DISTRHO
@@ -24,7 +26,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 StutterJuiceUI::StutterJuiceUI()
-    : UI(),
+    : UI(StutterJuiceArtwork::backgroundWidth, StutterJuiceArtwork::backgroundHeight),
       fAboutWindow(this)
 {
 	// background
@@ -69,6 +71,7 @@ StutterJuiceUI::StutterJuiceUI()
 			fSliders[module][param]->setRange(0.0f, 1.0f);
 			fSliders[module][param]->setValue(0.0f);
 			fSliders[module][param]->setStep(0.125f);
+			fSliders[module][param]->setId(module*3+param);
 			fSliders[module][param]->setCallback(this);
 			
 		}
@@ -77,13 +80,13 @@ StutterJuiceUI::StutterJuiceUI()
 	}
 
     // set default values
-    d_programChanged(0);
+    programLoaded(0);
 }
 
 // -----------------------------------------------------------------------
 // DSP Callbacks
 
-void StutterJuiceUI::d_parameterChanged(uint32_t index, float value)
+void StutterJuiceUI::parameterChanged(uint32_t index, float value)
 {
 	if (index<26) {
 		int module = index/3;
@@ -95,7 +98,7 @@ void StutterJuiceUI::d_parameterChanged(uint32_t index, float value)
 	}
 }
 
-void StutterJuiceUI::d_programChanged(uint32_t index)
+void StutterJuiceUI::programLoaded(uint32_t index)
 {
 	if (index != 0)
 		return;
@@ -114,35 +117,17 @@ void StutterJuiceUI::imageButtonClicked(ImageButton* button, int)
 
 void StutterJuiceUI::imageSliderDragStarted(ImageSlider* slider)
 {
-	for (int module=0; module<9; module++) {
-		for (int param=0; param<3; param++) {
-			if (slider == fSliders[module][param]) {
-				d_editParameter(module*3+param, true);
-			}
-		}
-	}
+	editParameter(slider->getId(), true);
 }
 
 void StutterJuiceUI::imageSliderDragFinished(ImageSlider* slider)
 {
-	for (int module=0; module<9; module++) {
-		for (int param=0; param<3; param++) {
-			if (slider == fSliders[module][param]) {
-				d_editParameter(module*3+param, false);
-			}
-		}
-	}
+	editParameter(slider->getId(), false);
 }
 
 void StutterJuiceUI::imageSliderValueChanged(ImageSlider* slider, float value)
 {
-	for (int module=0; module<9; module++) {
-		for (int param=0; param<3; param++) {
-			if (slider == fSliders[module][param]) {
-				d_setParameterValue(module*3+param, value);
-			}
-		}
-	}
+	setParameterValue(slider->getId(), value);
 }
 
 void StutterJuiceUI::onDisplay()

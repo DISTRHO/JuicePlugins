@@ -20,10 +20,7 @@
 
 #include "DistrhoUI.hpp"
 
-#include "ImageAboutWindow.hpp"
-#include "ImageButton.hpp"
-#include "ImageKnob.hpp"
-#include "ImageSlider.hpp"
+#include "ImageWidgets.hpp"
 
 #include "PowerJuiceArtwork.hpp"
 #include "PowerJuicePlugin.hpp"
@@ -48,28 +45,15 @@ public:
 
 protected:
     // -------------------------------------------------------------------
-    // Information
-
-    uint d_getWidth() const noexcept override
-    {
-        return PowerJuiceArtwork::backgroundWidth;
-    }
-
-    uint d_getHeight() const noexcept override
-    {
-        return PowerJuiceArtwork::backgroundHeight;
-    }
-
-    // -------------------------------------------------------------------
     // DSP Callbacks
 
-    void d_parameterChanged(uint32_t index, float value) override;
-    void d_programChanged(uint32_t index) override;
+    void parameterChanged(uint32_t index, float value) override;
+    void programLoaded(uint32_t index) override;
 
     // -------------------------------------------------------------------
     // UI Callbacks
 
-    void d_uiIdle() override;
+    void uiIdle() override;
 
     // -------------------------------------------------------------------
     // Widget Callbacks

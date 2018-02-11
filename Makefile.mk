@@ -77,6 +77,9 @@ endif
 # --------------------------------------------------------------
 # Check for required libs
 
+# FIXME
+BASE_FLAGS += -DHAVE_JACK -DHAVE_LIBLO -DHAVE_DGL
+
 ifeq ($(LINUX),true)
 ifneq ($(shell pkg-config --exists jack && echo true),true)
 $(error JACK missing, cannot continue)

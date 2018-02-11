@@ -20,14 +20,7 @@
 
 #include "DistrhoUI.hpp"
 
-#include "Geometry.hpp"
-#include "ImageAboutWindow.hpp"
-#include "ImageButton.hpp"
-#include "ImageKnob.hpp"
-#include "ImageSlider.hpp"
-
-#include "StutterJuiceArtwork.hpp"
-#include "StutterJuicePlugin.hpp"
+#include "ImageWidgets.hpp"
 
 using DGL::Image;
 using DGL::ImageAboutWindow;
@@ -48,24 +41,11 @@ public:
     StutterJuiceUI();
 
 protected:
-    // -------------------------------------------------------------------
-    // Information
-
-	uint d_getWidth() const noexcept override
-	{
-		return StutterJuiceArtwork::backgroundWidth;
-	}
-
-	uint d_getHeight() const noexcept override
-	{
-		return StutterJuiceArtwork::backgroundHeight;
-	}
-
 	// -------------------------------------------------------------------
 	// DSP Callbacks
 
-	void d_parameterChanged(uint32_t index, float value) override;
-	void d_programChanged(uint32_t index) override;
+	void parameterChanged(uint32_t index, float value) override;
+	void programLoaded(uint32_t index) override;
 
 	// -------------------------------------------------------------------
 	// Widget Callbacks

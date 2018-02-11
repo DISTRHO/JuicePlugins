@@ -18,7 +18,9 @@
 #include "VectorJuicePlugin.hpp"
 #include "VectorJuiceUI.hpp"
 
-using DGL::Point;
+#include "VectorJuiceArtwork.hpp"
+
+using DGL_NAMESPACE::Point;
 
 START_NAMESPACE_DISTRHO
 
@@ -28,6 +30,8 @@ VectorJuiceUI::VectorJuiceUI()
     : UI(),
       fAboutWindow(this)
 {
+    setSize(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight);
+
     // xy params
     paramX = paramY = 0.5f;
 
@@ -68,7 +72,8 @@ VectorJuiceUI::VectorJuiceUI()
     Image knobImage(VectorJuiceArtwork::knobData, VectorJuiceArtwork::knobWidth, VectorJuiceArtwork::knobHeight);
 
     // knob KnobOrbitSizeX
-    fKnobOrbitSizeX = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramOrbitSizeX);
+    fKnobOrbitSizeX = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobOrbitSizeX->setId(VectorJuicePlugin::paramOrbitSizeX);
     fKnobOrbitSizeX->setAbsolutePos(423, 73);
     fKnobOrbitSizeX->setRotationAngle(270);
     fKnobOrbitSizeX->setRange(0.0f, 1.0f);
@@ -76,7 +81,8 @@ VectorJuiceUI::VectorJuiceUI()
     fKnobOrbitSizeX->setCallback(this);
 
     // knob KnobOrbitSizeY
-    fKnobOrbitSizeY = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramOrbitSizeY);
+    fKnobOrbitSizeY = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobOrbitSizeY->setId(VectorJuicePlugin::paramOrbitSizeY);
     fKnobOrbitSizeY->setAbsolutePos(516, 73);
     fKnobOrbitSizeY->setRotationAngle(270);
     fKnobOrbitSizeY->setRange(0.0f, 1.0f);
@@ -84,7 +90,8 @@ VectorJuiceUI::VectorJuiceUI()
     fKnobOrbitSizeY->setCallback(this);
 
     // knob KnobOrbitSpeedX
-    fKnobOrbitSpeedX = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramOrbitSpeedX);
+    fKnobOrbitSpeedX = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobOrbitSpeedX->setId(VectorJuicePlugin::paramOrbitSpeedX);
     fKnobOrbitSpeedX->setAbsolutePos(423, 185);
     fKnobOrbitSpeedX->setRotationAngle(270);
     fKnobOrbitSpeedX->setStep(1.0f);
@@ -93,7 +100,8 @@ VectorJuiceUI::VectorJuiceUI()
     fKnobOrbitSpeedX->setCallback(this);
 
     // knob KnobOrbitSpeedY
-    fKnobOrbitSpeedY = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramOrbitSpeedY);
+    fKnobOrbitSpeedY = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobOrbitSpeedY->setId(VectorJuicePlugin::paramOrbitSpeedY);
     fKnobOrbitSpeedY->setAbsolutePos(516, 185);
     fKnobOrbitSpeedY->setRotationAngle(270);
     fKnobOrbitSpeedY->setStep(1.0f);
@@ -102,7 +110,8 @@ VectorJuiceUI::VectorJuiceUI()
     fKnobOrbitSpeedY->setCallback(this);
 
     // knob KnobSubOrbitSize
-    fKnobSubOrbitSize = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramSubOrbitSize);
+    fKnobSubOrbitSize = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobSubOrbitSize->setId(VectorJuicePlugin::paramSubOrbitSize);
     fKnobSubOrbitSize->setAbsolutePos(620, 73);
     fKnobSubOrbitSize->setRange(0.0f, 1.0f);
     fKnobSubOrbitSize->setRotationAngle(270);
@@ -110,7 +119,8 @@ VectorJuiceUI::VectorJuiceUI()
     fKnobSubOrbitSize->setCallback(this);
 
     // knob KnobSubOrbitSpeed
-    fKnobSubOrbitSpeed = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramSubOrbitSpeed);
+    fKnobSubOrbitSpeed = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobSubOrbitSpeed->setId(VectorJuicePlugin::paramSubOrbitSpeed);
     fKnobSubOrbitSpeed->setAbsolutePos(620, 185);
     fKnobSubOrbitSpeed->setRotationAngle(270);
     fKnobSubOrbitSpeed->setStep(1.0f);
@@ -119,7 +129,8 @@ VectorJuiceUI::VectorJuiceUI()
     fKnobSubOrbitSpeed->setCallback(this);
 
     // knob KnobSubOrbitSmooth
-    fKnobSubOrbitSmooth = new ImageKnob(this, knobImage, ImageKnob::Vertical, VectorJuicePlugin::paramSubOrbitSmooth);
+    fKnobSubOrbitSmooth = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobSubOrbitSmooth->setId(VectorJuicePlugin::paramSubOrbitSmooth);
     fKnobSubOrbitSmooth->setAbsolutePos(620, 297);
     fKnobSubOrbitSmooth->setRotationAngle(270);
     fKnobSubOrbitSmooth->setRange(0.0f, 1.0f);
@@ -132,7 +143,8 @@ VectorJuiceUI::VectorJuiceUI()
     Point<int> sliderPosEnd(410+48, 284);
 
     // slider OrbitWaveX
-    fSliderOrbitWaveX = new ImageSlider(this, sliderImage, VectorJuicePlugin::paramOrbitWaveX);
+    fSliderOrbitWaveX = new ImageSlider(this, sliderImage);
+    fSliderOrbitWaveX->setId(VectorJuicePlugin::paramOrbitWaveX);
     fSliderOrbitWaveX->setStartPos(sliderPosStart);
     fSliderOrbitWaveX->setEndPos(sliderPosEnd);
     fSliderOrbitWaveX->setRange(1.0f, 4.0f);
@@ -142,7 +154,8 @@ VectorJuiceUI::VectorJuiceUI()
     // slider OrbitWaveY
     sliderPosStart.setX(503);
     sliderPosEnd.setX(503+48);
-    fSliderOrbitWaveY = new ImageSlider(this, sliderImage, VectorJuicePlugin::paramOrbitWaveY);
+    fSliderOrbitWaveY = new ImageSlider(this, sliderImage);
+    fSliderOrbitWaveY->setId(VectorJuicePlugin::paramOrbitWaveY);
     fSliderOrbitWaveY->setStartPos(sliderPosStart);
     fSliderOrbitWaveY->setEndPos(sliderPosEnd);
     fSliderOrbitWaveY->setRange(1.0f, 4.0f);
@@ -154,7 +167,8 @@ VectorJuiceUI::VectorJuiceUI()
     sliderPosStart.setY(345);
     sliderPosEnd.setX(410+48);
     sliderPosEnd.setY(345);
-    fSliderOrbitPhaseX = new ImageSlider(this, sliderImage, VectorJuicePlugin::paramOrbitPhaseX);
+    fSliderOrbitPhaseX = new ImageSlider(this, sliderImage);
+    fSliderOrbitPhaseX->setId(VectorJuicePlugin::paramOrbitPhaseX);
     fSliderOrbitPhaseX->setStartPos(sliderPosStart);
     fSliderOrbitPhaseX->setEndPos(sliderPosEnd);
     fSliderOrbitPhaseX->setRange(1.0f, 4.0f);
@@ -164,7 +178,8 @@ VectorJuiceUI::VectorJuiceUI()
     // slider OrbitPhaseY
     sliderPosStart.setX(503);
     sliderPosEnd.setX(503+48);
-    fSliderOrbitPhaseY = new ImageSlider(this, sliderImage, VectorJuicePlugin::paramOrbitPhaseY);
+    fSliderOrbitPhaseY = new ImageSlider(this, sliderImage);
+    fSliderOrbitPhaseY->setId(VectorJuicePlugin::paramOrbitPhaseY);
     fSliderOrbitPhaseY->setStartPos(sliderPosStart);
     fSliderOrbitPhaseY->setEndPos(sliderPosEnd);
     fSliderOrbitPhaseY->setRange(1.0f, 4.0f);
@@ -172,13 +187,13 @@ VectorJuiceUI::VectorJuiceUI()
     fSliderOrbitPhaseY->setCallback(this);
 
     // set default values
-    d_programChanged(0);
+    programLoaded(0);
 }
 
 // -----------------------------------------------------------------------
 // DSP Callbacks
 
-void VectorJuiceUI::d_parameterChanged(uint32_t index, float value)
+void VectorJuiceUI::parameterChanged(uint32_t index, float value)
 {
     switch (index)
     {
@@ -262,7 +277,7 @@ void VectorJuiceUI::d_parameterChanged(uint32_t index, float value)
     }
 }
 
-void VectorJuiceUI::d_programChanged(uint32_t index)
+void VectorJuiceUI::programLoaded(uint32_t index)
 {
     if (index != 0)
         return;
@@ -295,32 +310,32 @@ void VectorJuiceUI::imageButtonClicked(ImageButton* button, int)
 
 void VectorJuiceUI::imageKnobDragStarted(ImageKnob* knob)
 {
-    d_editParameter(knob->getId(), true);
+    editParameter(knob->getId(), true);
 }
 
 void VectorJuiceUI::imageKnobDragFinished(ImageKnob* knob)
 {
-    d_editParameter(knob->getId(), false);
+    editParameter(knob->getId(), false);
 }
 
 void VectorJuiceUI::imageKnobValueChanged(ImageKnob* knob, float value)
 {
-    d_setParameterValue(knob->getId(), value);
+    setParameterValue(knob->getId(), value);
 }
 
 void VectorJuiceUI::imageSliderDragStarted(ImageSlider* slider)
 {
-    d_editParameter(slider->getId(), true);
+    editParameter(slider->getId(), true);
 }
 
 void VectorJuiceUI::imageSliderDragFinished(ImageSlider* slider)
 {
-    d_editParameter(slider->getId(), false);
+    editParameter(slider->getId(), false);
 }
 
 void VectorJuiceUI::imageSliderValueChanged(ImageSlider* slider, float value)
 {
-    d_setParameterValue(slider->getId(), value);
+    setParameterValue(slider->getId(), value);
 }
 
 void VectorJuiceUI::onDisplay()
@@ -422,14 +437,14 @@ bool VectorJuiceUI::onMotion(const MotionEvent& ev)
     if (newX != paramX)
     {
         paramX = newX;
-        d_setParameterValue(VectorJuicePlugin::paramX, paramX);
+        setParameterValue(VectorJuicePlugin::paramX, paramX);
         repaint();
     }
 
     if (newY != paramY)
     {
         paramY = newY;
-        d_setParameterValue(VectorJuicePlugin::paramY, paramY);
+        setParameterValue(VectorJuicePlugin::paramY, paramY);
         repaint();
     }
 

@@ -27,10 +27,10 @@ PowerJuiceX2Plugin::PowerJuiceX2Plugin()
     : Plugin(paramCount, 1, 0) // 1 program, 0 states
 {
     // set default values
-    d_setProgram(0);
+    loadProgram(0);
 
     // reset
-    d_deactivate();
+    deactivate();
 }
 
 PowerJuiceX2Plugin::~PowerJuiceX2Plugin()
@@ -42,12 +42,12 @@ PowerJuiceX2Plugin::~PowerJuiceX2Plugin()
 // -----------------------------------------------------------------------
 // Init
 
-void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
+void PowerJuiceX2Plugin::initParameter(uint32_t index, Parameter& parameter)
 {
     switch (index)
     {
     case paramAttack:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Attack";
         parameter.symbol     = "att";
         parameter.unit       = "ms";
@@ -56,7 +56,7 @@ void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 1000.0f;
         break;
     case paramRelease:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Release";
         parameter.symbol     = "rel";
         parameter.unit       = "ms";
@@ -65,7 +65,7 @@ void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 1000.0f;
         break;
     case paramThreshold:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Threshold";
         parameter.symbol     = "thr";
         parameter.unit       = "dB";
@@ -74,7 +74,7 @@ void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 0.0f;
         break;
     case paramRatio:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Ratio";
         parameter.symbol     = "rat";
         parameter.unit       = "";
@@ -83,7 +83,7 @@ void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 10.0f;
         break;
     case paramMakeup:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Make-Up";
         parameter.symbol     = "mak";
         parameter.unit       = "";
@@ -92,7 +92,7 @@ void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 20.0f;
         break;
     case paramMix:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Mix";
         parameter.symbol     = "Mix";
         parameter.unit       = "";
@@ -104,7 +104,7 @@ void PowerJuiceX2Plugin::d_initParameter(uint32_t index, Parameter& parameter)
     }
 }
 
-void PowerJuiceX2Plugin::d_initProgramName(uint32_t index, d_string& programName)
+void PowerJuiceX2Plugin::initProgramName(uint32_t index, String& programName)
 {
     if (index != 0)
         return;
@@ -115,7 +115,7 @@ void PowerJuiceX2Plugin::d_initProgramName(uint32_t index, d_string& programName
 // -----------------------------------------------------------------------
 // Internal data
 
-float PowerJuiceX2Plugin::d_getParameterValue(uint32_t index) const
+float PowerJuiceX2Plugin::getParameterValue(uint32_t index) const
 {
     switch (index)
     {
@@ -136,17 +136,17 @@ float PowerJuiceX2Plugin::d_getParameterValue(uint32_t index) const
     }
 }
 
-void PowerJuiceX2Plugin::d_setParameterValue(uint32_t index, float value)
+void PowerJuiceX2Plugin::setParameterValue(uint32_t index, float value)
 {
     switch (index)
     {
     case paramAttack:
         attack = value;
-        attackSamples = d_getSampleRate()*(attack/1000.0f);
+        attackSamples = getSampleRate()*(attack/1000.0f);
         break;
     case paramRelease:
         release = value;
-        releaseSamples = d_getSampleRate()*(release/1000.0f);
+        releaseSamples = getSampleRate()*(release/1000.0f);
         break;
     case paramThreshold:
         threshold = value;
@@ -164,7 +164,7 @@ void PowerJuiceX2Plugin::d_setParameterValue(uint32_t index, float value)
     }
 }
 
-void PowerJuiceX2Plugin::d_setProgram(uint32_t index)
+void PowerJuiceX2Plugin::loadProgram(uint32_t index)
 {
     if (index != 0)
         return;
@@ -178,8 +178,8 @@ void PowerJuiceX2Plugin::d_setProgram(uint32_t index)
     mix = 1.0f;
 
     makeupFloat = fromDB(makeup);
-    attackSamples = d_getSampleRate()*(attack/1000.0f);
-    releaseSamples = d_getSampleRate()*(release/1000.0f);
+    attackSamples = getSampleRate()*(attack/1000.0f);
+    releaseSamples = getSampleRate()*(release/1000.0f);
 
 	
 
@@ -207,13 +207,13 @@ void PowerJuiceX2Plugin::d_setProgram(uint32_t index)
     repaintSkip = 0;
     
     
-    kFloatRMSStackCount = 400.0f/44100.0f*d_getSampleRate();
+    kFloatRMSStackCount = 400.0f/44100.0f*getSampleRate();
     RMSStack.data = (float*) calloc(kFloatRMSStackCount, sizeof(float));
     
-    kFloatLookaheadStackCount = 800.0f/44100.0f*d_getSampleRate();
+    kFloatLookaheadStackCount = 800.0f/44100.0f*getSampleRate();
     lookaheadStack.data = (float*) calloc(kFloatLookaheadStackCount, sizeof(float));
     
-    refreshSkip= 300.0f/44100.0f*d_getSampleRate();
+    refreshSkip= 300.0f/44100.0f*getSampleRate();
     
     std::memset(rms.data, 0, sizeof(float)*kFloatStackCount);
     std::memset(gainReduction.data, 0, sizeof(float)*kFloatStackCount);
@@ -225,7 +225,7 @@ void PowerJuiceX2Plugin::d_setProgram(uint32_t index)
 	for (int j=0; j < kFloatStackCount; ++j) 
 		history.gainReduction[j] = h +y;
 
-    d_activate();
+    activate();
     
 }
 
@@ -248,16 +248,16 @@ float PowerJuiceX2Plugin::getGainReductionHistory(int n) {
 // -----------------------------------------------------------------------
 // Process
 
-void PowerJuiceX2Plugin::d_activate()
+void PowerJuiceX2Plugin::activate()
 {
 }
 
-void PowerJuiceX2Plugin::d_deactivate()
+void PowerJuiceX2Plugin::deactivate()
 {
     // all values to zero
 }
 
-void PowerJuiceX2Plugin::d_run(const float** inputs, float** outputs, uint32_t frames)
+void PowerJuiceX2Plugin::run(const float** inputs, float** outputs, uint32_t frames)
 {
     const float* in1 = inputs[0];
     const float* in2 = inputs[1];

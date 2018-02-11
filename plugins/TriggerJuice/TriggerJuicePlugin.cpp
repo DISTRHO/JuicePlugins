@@ -30,10 +30,10 @@ TriggerJuicePlugin::TriggerJuicePlugin()
     : Plugin(paramCount, 1, 0) // 1 program, 0 states
 {
     // set default values
-    d_setProgram(0);
+    loadProgram(0);
 	
     // reset
-    d_deactivate();
+    deactivate();
 }
 
 TriggerJuicePlugin::~TriggerJuicePlugin()
@@ -44,12 +44,12 @@ TriggerJuicePlugin::~TriggerJuicePlugin()
 // -----------------------------------------------------------------------
 // Init
 
-void TriggerJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
+void TriggerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
 {
     switch (index)
     {
     case paramAttack:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Attack";
         parameter.symbol     = "att";
         parameter.unit       = "seconds";
@@ -59,7 +59,7 @@ void TriggerJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramRelease:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Release";
         parameter.symbol     = "rel";
         parameter.unit       = "seconds";
@@ -69,7 +69,7 @@ void TriggerJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramRev:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Reverse";
         parameter.symbol     = "rev";
         parameter.unit       = "";
@@ -79,7 +79,7 @@ void TriggerJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramSplit:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Split";
         parameter.symbol     = "spl";
         parameter.unit       = "";
@@ -89,7 +89,7 @@ void TriggerJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramMS:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "M/S";
         parameter.symbol     = "ms";
         parameter.unit       = "";
@@ -103,7 +103,7 @@ void TriggerJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
 	
 }
 
-void TriggerJuicePlugin::d_initProgramName(uint32_t index, d_string& programName)
+void TriggerJuicePlugin::initProgramName(uint32_t index, String& programName)
 {
     if (index != 0)
         return;
@@ -114,7 +114,7 @@ void TriggerJuicePlugin::d_initProgramName(uint32_t index, d_string& programName
 // -----------------------------------------------------------------------
 // Internal data
 
-float TriggerJuicePlugin::d_getParameterValue(uint32_t index) const
+float TriggerJuicePlugin::getParameterValue(uint32_t index) const
 {
     switch (index)
     {
@@ -133,7 +133,7 @@ float TriggerJuicePlugin::d_getParameterValue(uint32_t index) const
     }
 }
 
-void TriggerJuicePlugin::d_setParameterValue(uint32_t index, float value)
+void TriggerJuicePlugin::setParameterValue(uint32_t index, float value)
 {
     switch (index)
     {
@@ -143,9 +143,9 @@ void TriggerJuicePlugin::d_setParameterValue(uint32_t index, float value)
     case paramRev:
         rev = value;
 		if (rev<0.5) {
-			left.close(d_getSampleRate()/10); right.close(d_getSampleRate()/10); 
+			left.close(getSampleRate()/10); right.close(getSampleRate()/10); 
 		} else {
-			left.open(d_getSampleRate()/10); right.open(d_getSampleRate()/10);
+			left.open(getSampleRate()/10); right.open(getSampleRate()/10);
 		}
         break;
     case paramAttack:
@@ -160,7 +160,7 @@ void TriggerJuicePlugin::d_setParameterValue(uint32_t index, float value)
     }
 }
 
-void TriggerJuicePlugin::d_setProgram(uint32_t index)
+void TriggerJuicePlugin::loadProgram(uint32_t index)
 {
     if (index != 0)
         return;
@@ -176,8 +176,8 @@ void TriggerJuicePlugin::d_setProgram(uint32_t index)
     attack=release=0;
 	rev=split=MS=0;
 
-	left.setSr(d_getSampleRate());
-	right.setSr(d_getSampleRate());
+	left.setSr(getSampleRate());
+	right.setSr(getSampleRate());
 
 	//parameter smoothing
 	for (int i=0; i<2; i++) {
@@ -187,23 +187,23 @@ void TriggerJuicePlugin::d_setProgram(uint32_t index)
 	}
 
     /* reset filter values */
-    d_activate();
+    activate();
 }
 
 // -----------------------------------------------------------------------
 // Process
 
-void TriggerJuicePlugin::d_activate()
+void TriggerJuicePlugin::activate()
 {
     //sinePos = 0;
 }
 
-void TriggerJuicePlugin::d_deactivate()
+void TriggerJuicePlugin::deactivate()
 {
     // all values to zero
 }
 
-void TriggerJuicePlugin::d_run(const float** inputs, float** outputs, uint32_t frames, const MidiEvent* midiEvents, uint32_t midiEventCount)
+void TriggerJuicePlugin::run(const float** inputs, float** outputs, uint32_t frames, const MidiEvent* midiEvents, uint32_t midiEventCount)
 {
 
 	for (uint32_t i; i<frames; i++) {	
@@ -239,14 +239,17 @@ void TriggerJuicePlugin::d_run(const float** inputs, float** outputs, uint32_t f
 
 	for (uint32_t i; i<midiEventCount; i++) {
 
-		int mType = midiEvents[i].buf[0] & 0xF0;
-		int mChan = midiEvents[i].buf[0] & 0x0F;
-		int mNum = midiEvents[i].buf[1];
+		if (midiEvents[i].size > MidiEvent::kDataSize)
+			continue;
+		
+		int mType = midiEvents[i].data[0] & 0xF0;
+		int mChan = midiEvents[i].data[0] & 0x0F;
+		int mNum = midiEvents[i].data[1];
 		if (mType == 0x90) {
 			//NOTE ON
 
 			std::cout << mNum << std::endl;
-			int mVelo = midiEvents[i].buf[2];
+			int mVelo = midiEvents[i].data[2];
 			if (mNum == userNote) {
 				if (rev<0.5) {
 					if (split<0.5) {

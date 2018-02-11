@@ -26,6 +26,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     : UI(),
       fAboutWindow(this)
 {
+    setSize(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight);
+
     // background
     fImgBackground = Image(WobbleJuiceArtwork::backgroundData, WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight, GL_BGR);
 
@@ -37,7 +39,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     Image knobImage(WobbleJuiceArtwork::knobData, WobbleJuiceArtwork::knobWidth, WobbleJuiceArtwork::knobHeight);
 
     // knob Division
-    fKnobDivision = new ImageKnob(this, knobImage, ImageKnob::Vertical, WobbleJuicePlugin::paramDivision);
+    fKnobDivision = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobDivision->setId(WobbleJuicePlugin::paramDivision);
     fKnobDivision->setAbsolutePos(222, 74);
     fKnobDivision->setRotationAngle(270);
     fKnobDivision->setRange(1.0f, 16.0f);
@@ -46,7 +49,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     fKnobDivision->setCallback(this);
 
     // knob Resonance
-    fKnobResonance = new ImageKnob(this, knobImage, ImageKnob::Vertical, WobbleJuicePlugin::paramReso);
+    fKnobResonance = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobResonance->setId(WobbleJuicePlugin::paramReso);
     fKnobResonance->setAbsolutePos(222, 199);
     fKnobResonance->setRotationAngle(270);
     fKnobResonance->setRange(0.0f, 0.2f);
@@ -54,7 +58,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     fKnobResonance->setCallback(this);
 
     // knob Range
-    fKnobRange = new ImageKnob(this, knobImage, ImageKnob::Vertical, WobbleJuicePlugin::paramRange);
+    fKnobRange = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobRange->setId(WobbleJuicePlugin::paramRange);
     fKnobRange->setAbsolutePos(77, 199);
     fKnobRange->setRotationAngle(270);
     fKnobRange->setRange(500.0f, 16000.0f);
@@ -62,7 +67,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     fKnobRange->setCallback(this);
 
     // knob Phase
-    fKnobPhase = new ImageKnob(this, knobImage, ImageKnob::Vertical, WobbleJuicePlugin::paramPhase);
+    fKnobPhase = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobPhase->setId(WobbleJuicePlugin::paramPhase);
     fKnobPhase->setAbsolutePos(362, 74);
     fKnobPhase->setRotationAngle(270);
     fKnobPhase->setRange(-1.0f, 1.0f);
@@ -70,7 +76,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     fKnobPhase->setCallback(this);
 
     // knob Wave
-    fKnobWave = new ImageKnob(this, knobImage, ImageKnob::Vertical, WobbleJuicePlugin::paramWave);
+    fKnobWave = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobWave->setId(WobbleJuicePlugin::paramWave);
     fKnobWave->setAbsolutePos(77, 74);
     fKnobWave->setRotationAngle(270);
     fKnobWave->setRange(1.0f, 4.0f);
@@ -78,7 +85,8 @@ WobbleJuiceUI::WobbleJuiceUI()
     fKnobWave->setCallback(this);
 
     // knob Drive
-    fKnobDrive = new ImageKnob(this, knobImage, ImageKnob::Vertical, WobbleJuicePlugin::paramDrive);
+    fKnobDrive = new ImageKnob(this, knobImage, ImageKnob::Vertical);
+    fKnobDrive->setId(WobbleJuicePlugin::paramDrive);
     fKnobDrive->setAbsolutePos(362, 199);
     fKnobDrive->setRotationAngle(270);
     fKnobDrive->setRange(0.0f, 1.0f);
@@ -93,13 +101,13 @@ WobbleJuiceUI::WobbleJuiceUI()
     fButtonAbout->setCallback(this);
 
     // set default values
-    d_programChanged(0);
+    programLoaded(0);
 }
 
 // -----------------------------------------------------------------------
 // DSP Callbacks
 
-void WobbleJuiceUI::d_parameterChanged(uint32_t index, float value)
+void WobbleJuiceUI::parameterChanged(uint32_t index, float value)
 {
     switch (index)
     {
@@ -124,7 +132,7 @@ void WobbleJuiceUI::d_parameterChanged(uint32_t index, float value)
     }
 }
 
-void WobbleJuiceUI::d_programChanged(uint32_t index)
+void WobbleJuiceUI::programLoaded(uint32_t index)
 {
     if (index != 0)
         return;
@@ -151,17 +159,17 @@ void WobbleJuiceUI::imageButtonClicked(ImageButton* button, int)
 
 void WobbleJuiceUI::imageKnobDragStarted(ImageKnob* knob)
 {
-    d_editParameter(knob->getId(), true);
+    editParameter(knob->getId(), true);
 }
 
 void WobbleJuiceUI::imageKnobDragFinished(ImageKnob* knob)
 {
-    d_editParameter(knob->getId(), false);
+    editParameter(knob->getId(), false);
 }
 
 void WobbleJuiceUI::imageKnobValueChanged(ImageKnob* knob, float value)
 {
-    d_setParameterValue(knob->getId(), value);
+    setParameterValue(knob->getId(), value);
 }
 
 void WobbleJuiceUI::onDisplay()

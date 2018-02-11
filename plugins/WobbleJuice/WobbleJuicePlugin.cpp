@@ -25,18 +25,18 @@ WobbleJuicePlugin::WobbleJuicePlugin()
     : Plugin(paramCount, 1, 0) // 1 program, 0 states
 {
     // set default values
-    d_setProgram(0);
+    loadProgram(0);
 }
 
 // -----------------------------------------------------------------------
 // Init
 
-void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
+void WobbleJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
 {
     switch (index)
     {
     case paramDivision:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE|PARAMETER_IS_INTEGER;
+        parameter.hints      = kParameterIsAutomable|kParameterIsInteger;
         parameter.name       = "Division";
         parameter.symbol     = "div";
         parameter.unit       = "x";
@@ -45,7 +45,7 @@ void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 16.0f;
         break;
     case paramReso:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Resonance";
         parameter.symbol     = "reso";
         parameter.unit       = "";
@@ -54,7 +54,7 @@ void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 0.2f;
         break;
     case paramRange:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Range";
         parameter.symbol     = "rng";
         parameter.unit       = "Hz";
@@ -63,7 +63,7 @@ void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 16000.0f;
         break;
     case paramPhase:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Phase";
         parameter.symbol     = "phs";
         parameter.unit       = "Deg";
@@ -72,7 +72,7 @@ void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 1.0f;
         break;
     case paramWave:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Wave";
         parameter.symbol     = "wav";
         parameter.unit       = "";
@@ -81,7 +81,7 @@ void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 4.0f;
         break;
     case paramDrive:
-        parameter.hints      = PARAMETER_IS_AUTOMABLE;
+        parameter.hints      = kParameterIsAutomable;
         parameter.name       = "Drive";
         parameter.symbol     = "drv";
         parameter.unit       = "";
@@ -92,7 +92,7 @@ void WobbleJuicePlugin::d_initParameter(uint32_t index, Parameter& parameter)
     }
 }
 
-void WobbleJuicePlugin::d_initProgramName(uint32_t index, d_string& programName)
+void WobbleJuicePlugin::initProgramName(uint32_t index, String& programName)
 {
     if (index != 0)
         return;
@@ -103,7 +103,7 @@ void WobbleJuicePlugin::d_initProgramName(uint32_t index, d_string& programName)
 // -----------------------------------------------------------------------
 // Internal data
 
-float WobbleJuicePlugin::d_getParameterValue(uint32_t index) const
+float WobbleJuicePlugin::getParameterValue(uint32_t index) const
 {
     switch (index)
     {
@@ -124,7 +124,7 @@ float WobbleJuicePlugin::d_getParameterValue(uint32_t index) const
     }
 }
 
-void WobbleJuicePlugin::d_setParameterValue(uint32_t index, float value)
+void WobbleJuicePlugin::setParameterValue(uint32_t index, float value)
 {
     switch (index)
     {
@@ -149,7 +149,7 @@ void WobbleJuicePlugin::d_setParameterValue(uint32_t index, float value)
     }
 }
 
-void WobbleJuicePlugin::d_setProgram(uint32_t index)
+void WobbleJuicePlugin::loadProgram(uint32_t index)
 {
     if (index != 0)
         return;
@@ -168,24 +168,24 @@ void WobbleJuicePlugin::d_setProgram(uint32_t index)
     waveType=2.0f;
 
     /* reset filter values */
-    d_activate();
+    activate();
 }
 
 // -----------------------------------------------------------------------
 // Process
 
-void WobbleJuicePlugin::d_activate()
+void WobbleJuicePlugin::activate()
 {
     sinePos = 0.0;
 }
 
-void WobbleJuicePlugin::d_run(const float** inputs, float** outputs, uint32_t frames)
+void WobbleJuicePlugin::run(const float** inputs, float** outputs, uint32_t frames)
 {
     //fetch the timepos struct from host;
-    const TimePos& time(d_getTimePos());
+    const TimePosition& time(getTimePosition());
 
     /* sample count for one bar */
-    bar = ((120.0/(time.bbt.valid ? time.bbt.beatsPerMinute : 120.0))*(d_getSampleRate())); //ONE, two, three, four
+    bar = ((120.0/(time.bbt.valid ? time.bbt.beatsPerMinute : 120.0))*(getSampleRate())); //ONE, two, three, four
     tick = bar/(std::round(division)); //size of one target wob
     phaseOffset = phase*M_PI; //2pi = 1 whole cycle
 
@@ -225,8 +225,8 @@ void WobbleJuicePlugin::d_run(const float** inputs, float** outputs, uint32_t fr
     cutoffR = std::exp((std::log(range)-std::log(500))*currentPhaseR+std::log(500));
 
     //output filtered signal
-    filterL.recalc(cutoffL, reso*4, d_getSampleRate(), drive);
-    filterR.recalc(cutoffR, reso*4, d_getSampleRate(), drive);
+    filterL.recalc(cutoffL, reso*4, getSampleRate(), drive);
+    filterR.recalc(cutoffR, reso*4, getSampleRate(), drive);
     filterL.process(frames, inputs[0], outputs[0]);
     filterR.process(frames, inputs[1], outputs[1]);
 }

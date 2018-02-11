@@ -20,10 +20,7 @@
 
 #include "DistrhoUI.hpp"
 
-#include "ImageAboutWindow.hpp"
-#include "ImageButton.hpp"
-#include "ImageKnob.hpp"
-#include "ImageSlider.hpp"
+#include "ImageWidgets.hpp"
 
 #include "PowerJuiceX2Artwork.hpp"
 #include "PowerJuiceX2Plugin.hpp"
@@ -40,36 +37,23 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 class PowerJuiceX2UI : public UI,
-                     public ImageButton::Callback,
-                     public ImageKnob::Callback
+                       public ImageButton::Callback,
+                       public ImageKnob::Callback
 {
 public:
     PowerJuiceX2UI();
 
 protected:
     // -------------------------------------------------------------------
-    // Information
-
-    uint d_getWidth() const noexcept override
-    {
-        return PowerJuiceX2Artwork::backgroundWidth;
-    }
-
-    uint d_getHeight() const noexcept override
-    {
-        return PowerJuiceX2Artwork::backgroundHeight;
-    }
-
-    // -------------------------------------------------------------------
     // DSP Callbacks
 
-    void d_parameterChanged(uint32_t index, float value) override;
-    void d_programChanged(uint32_t index) override;
+    void parameterChanged(uint32_t index, float value) override;
+    void programLoaded(uint32_t index) override;
 
     // -------------------------------------------------------------------
     // UI Callbacks
 
-    void d_uiIdle() override;
+    void uiIdle() override;
 
     // -------------------------------------------------------------------
     // Widget Callbacks
