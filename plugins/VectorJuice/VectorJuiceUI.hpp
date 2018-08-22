@@ -22,6 +22,8 @@
 
 #include "ImageWidgets.hpp"
 
+#include "VectorJuiceArtwork.hpp"
+
 using DGL_NAMESPACE::Image;
 using DGL_NAMESPACE::ImageAboutWindow;
 using DGL_NAMESPACE::ImageButton;
