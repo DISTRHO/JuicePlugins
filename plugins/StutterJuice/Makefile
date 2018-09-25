@@ -12,17 +12,17 @@ NAME = StutterJuice
 # --------------------------------------------------------------
 # Files to build
 
-OBJS_DSP = \
-	StutterJuicePlugin.cpp.o
+FILES_DSP = \
+	StutterJuicePlugin.cpp
 
-OBJS_UI  = \
-	StutterJuiceArtwork.cpp.o \
-	StutterJuiceUI.cpp.o
+FILES_UI  = \
+	StutterJuiceArtwork.cpp \
+	StutterJuiceUI.cpp
 
 # --------------------------------------------------------------
 # Do some magic
 
-include ../Makefile.mk
+include ../../dpf/Makefile.plugins.mk
 
 # --------------------------------------------------------------
 # Enable all possible plugin types

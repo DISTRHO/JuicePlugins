@@ -4,14 +4,18 @@
 # Created by falkTX
 #
 
-all: libs plugins gen
+include dpf/Makefile.base.mk
+
+all: dgl plugins gen
 
 # --------------------------------------------------------------
 
-libs:
+dgl:
+ifeq ($(HAVE_DGL),true)
 	$(MAKE) -C dpf/dgl
+endif
 
-plugins: libs
+plugins: dgl
 	$(MAKE) all -C plugins/PowerJuice
 	$(MAKE) all -C plugins/PowerJuiceX2
 	$(MAKE) all -C plugins/StutterJuice
@@ -19,11 +23,18 @@ plugins: libs
 	$(MAKE) all -C plugins/VectorJuice
 	$(MAKE) all -C plugins/WobbleJuice
 
+ifneq ($(CROSS_COMPILING),true)
 gen: plugins dpf/utils/lv2_ttl_generator
 	@$(CURDIR)/dpf/utils/generate-ttl.sh
+ifeq ($(MACOS),true)
+	@$(CURDIR)/dpf/utils/generate-vst-bundles.sh
+endif
 
 dpf/utils/lv2_ttl_generator:
 	$(MAKE) -C dpf/utils/lv2-ttl-generator
+else
+gen:
+endif
 
 # --------------------------------------------------------------
 
@@ -36,6 +47,7 @@ clean:
 	$(MAKE) clean -C plugins/TriggerJuice
 	$(MAKE) clean -C plugins/VectorJuice
 	$(MAKE) clean -C plugins/WobbleJuice
+	rm -rf bin build
 
 # --------------------------------------------------------------
 

@@ -12,17 +12,17 @@ NAME = VectorJuice
 # --------------------------------------------------------------
 # Files to build
 
-OBJS_DSP = \
-	VectorJuicePlugin.cpp.o
+FILES_DSP = \
+	VectorJuicePlugin.cpp
 
-OBJS_UI  = \
-	VectorJuiceArtwork.cpp.o \
-	VectorJuiceUI.cpp.o
+FILES_UI  = \
+	VectorJuiceArtwork.cpp \
+	VectorJuiceUI.cpp
 
 # --------------------------------------------------------------
 # Do some magic
 
-include ../Makefile.mk
+include ../../dpf/Makefile.plugins.mk
 
 # --------------------------------------------------------------
 # Enable all possible plugin types

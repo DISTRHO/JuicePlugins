@@ -12,17 +12,17 @@ NAME = WobbleJuice
 # --------------------------------------------------------------
 # Files to build
 
-OBJS_DSP = \
-	WobbleJuicePlugin.cpp.o
+FILES_DSP = \
+	WobbleJuicePlugin.cpp
 
-OBJS_UI  = \
-	WobbleJuiceArtwork.cpp.o \
-	WobbleJuiceUI.cpp.o
+FILES_UI  = \
+	WobbleJuiceArtwork.cpp \
+	WobbleJuiceUI.cpp
 
 # --------------------------------------------------------------
 # Do some magic
 
-include ../Makefile.mk
+include ../../dpf/Makefile.plugins.mk
 
 # --------------------------------------------------------------
 # Enable all possible plugin types

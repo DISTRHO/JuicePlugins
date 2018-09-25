@@ -12,25 +12,25 @@ NAME = PowerJuice
 # --------------------------------------------------------------
 # Files to build
 
-OBJS_DSP = \
-	PowerJuicePlugin.cpp.o
+FILES_DSP = \
+	PowerJuicePlugin.cpp
 
-OBJS_UI  = \
-	PowerJuiceArtwork.cpp.o \
-	PowerJuiceUI.cpp.o
+FILES_UI  = \
+	PowerJuiceArtwork.cpp \
+	PowerJuiceUI.cpp
 
 # --------------------------------------------------------------
 # Do some magic
 
-include ../Makefile.mk
+include ../../dpf/Makefile.plugins.mk
 
 # --------------------------------------------------------------
 # Enable all possible plugin types
 
 ifeq ($(LINUX),true)
-all: jack lv2_one vst
+all: jack lv2 vst
 else
-all: lv2_one vst
+all: lv2 vst
 endif
 
 # --------------------------------------------------------------

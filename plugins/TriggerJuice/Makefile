@@ -12,17 +12,17 @@ NAME = TriggerJuice
 # --------------------------------------------------------------
 # Files to build
 
-OBJS_DSP = \
-	TriggerJuicePlugin.cpp.o
+FILES_DSP = \
+	TriggerJuicePlugin.cpp
 
-OBJS_UI  = \
-	TriggerJuiceArtwork.cpp.o \
-	TriggerJuiceUI.cpp.o
+FILES_UI  = \
+	TriggerJuiceArtwork.cpp \
+	TriggerJuiceUI.cpp
 
 # --------------------------------------------------------------
 # Do some magic
 
-include ../Makefile.mk
+include ../../dpf/Makefile.plugins.mk
 
 # --------------------------------------------------------------
 # Enable all possible plugin types
