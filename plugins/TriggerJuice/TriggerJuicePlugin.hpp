@@ -72,7 +72,7 @@ protected:
         return 0x1000;
     }
 
-    long getUniqueId() const noexcept override
+    int64_t getUniqueId() const noexcept override
     {
         return d_cconst('T', 'r', 'g', 'J');
     }
