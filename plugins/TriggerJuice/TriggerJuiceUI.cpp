@@ -31,21 +31,21 @@ TriggerJuiceUI::TriggerJuiceUI()
       fAboutWindow(this)
 {
     // background
-    fImgBackground = Image(TriggerJuiceArtwork::backgroundData, TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight, GL_BGRA);
+    fImgBackground = Image(TriggerJuiceArtwork::backgroundData, TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight, kImageFormatBGRA);
 
     // about
-    Image imageAbout(TriggerJuiceArtwork::aboutData, TriggerJuiceArtwork::aboutWidth, TriggerJuiceArtwork::aboutHeight, GL_BGRA);
+    Image imageAbout(TriggerJuiceArtwork::aboutData, TriggerJuiceArtwork::aboutWidth, TriggerJuiceArtwork::aboutHeight, kImageFormatBGRA);
     fAboutWindow.setImage(imageAbout);
 
     // about button
-    Image aboutImageNormal(TriggerJuiceArtwork::aboutButtonNormalData, TriggerJuiceArtwork::aboutButtonNormalWidth, TriggerJuiceArtwork::aboutButtonNormalHeight);
-    Image aboutImageHover(TriggerJuiceArtwork::aboutButtonHoverData, TriggerJuiceArtwork::aboutButtonHoverWidth, TriggerJuiceArtwork::aboutButtonHoverHeight);
+    Image aboutImageNormal(TriggerJuiceArtwork::aboutButtonNormalData, TriggerJuiceArtwork::aboutButtonNormalWidth, TriggerJuiceArtwork::aboutButtonNormalHeight, kImageFormatBGRA);
+    Image aboutImageHover(TriggerJuiceArtwork::aboutButtonHoverData, TriggerJuiceArtwork::aboutButtonHoverWidth, TriggerJuiceArtwork::aboutButtonHoverHeight, kImageFormatBGRA);
     fButtonAbout = new ImageButton(this, aboutImageNormal, aboutImageHover, aboutImageHover);
     fButtonAbout->setAbsolutePos(358, 17);
     fButtonAbout->setCallback(this);
 
     // knobs
-    Image knobImage(TriggerJuiceArtwork::knobData, TriggerJuiceArtwork::knobWidth, TriggerJuiceArtwork::knobHeight);
+    Image knobImage(TriggerJuiceArtwork::knobData, TriggerJuiceArtwork::knobWidth, TriggerJuiceArtwork::knobHeight, kImageFormatBGRA);
 
     // knob KnobAttack
     fKnobAttack = new ImageKnob(this, knobImage);
@@ -64,7 +64,7 @@ TriggerJuiceUI::TriggerJuiceUI()
     fKnobRelease->setCallback(this);
 
     // sliders
-    Image sliderImage(TriggerJuiceArtwork::sliderData, TriggerJuiceArtwork::sliderWidth, TriggerJuiceArtwork::sliderHeight);
+    Image sliderImage(TriggerJuiceArtwork::sliderData, TriggerJuiceArtwork::sliderWidth, TriggerJuiceArtwork::sliderHeight, kImageFormatBGRA);
     Point<int> sliderPosStart(293, 74);
     Point<int> sliderPosEnd(293+11, 74);
 
@@ -146,7 +146,7 @@ void TriggerJuiceUI::imageButtonClicked(ImageButton* button, int)
     if (button != fButtonAbout)
         return;
 
-    fAboutWindow.exec();
+    fAboutWindow.runAsModal();
 }
 
 void TriggerJuiceUI::imageKnobDragStarted(ImageKnob* knob)
@@ -205,7 +205,9 @@ void TriggerJuiceUI::imageSliderValueChanged(ImageSlider* slider, float value)
 
 void TriggerJuiceUI::onDisplay()
 {
-    fImgBackground.draw();
+    const GraphicsContext& context(getGraphicsContext());
+
+    fImgBackground.draw(context);
 }
 
 // -----------------------------------------------------------------------

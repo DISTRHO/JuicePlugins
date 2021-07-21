@@ -27,10 +27,6 @@ include ../../dpf/Makefile.plugins.mk
 # --------------------------------------------------------------
 # Enable all possible plugin types
 
-ifeq ($(LINUX),true)
 all: jack lv2_sep vst
-else
-all: lv2_sep vst
-endif
 
 # --------------------------------------------------------------
