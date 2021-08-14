@@ -23,11 +23,9 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 WobbleJuiceUI::WobbleJuiceUI()
-    : UI(),
+    : UI(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight),
       fAboutWindow(this)
 {
-    setSize(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight);
-
     // background
     fImgBackground = Image(WobbleJuiceArtwork::backgroundData, WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight, kImageFormatBGR);
 
@@ -102,6 +100,9 @@ WobbleJuiceUI::WobbleJuiceUI()
 
     // set default values
     programLoaded(0);
+
+    // automatically-scale
+    setGeometryConstraints(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------
@@ -154,7 +155,7 @@ void WobbleJuiceUI::imageButtonClicked(ImageButton* button, int)
     if (button != fButtonAbout)
         return;
 
-    fAboutWindow.exec();
+    fAboutWindow.runAsModal();
 }
 
 void WobbleJuiceUI::imageKnobDragStarted(ImageKnob* knob)

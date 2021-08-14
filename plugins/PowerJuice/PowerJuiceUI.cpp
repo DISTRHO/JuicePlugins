@@ -101,6 +101,9 @@ PowerJuiceUI::PowerJuiceUI()
 
     // set default values
     programLoaded(0);
+
+    // automatically-scale
+    setGeometryConstraints(PowerJuiceArtwork::backgroundWidth, PowerJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------
@@ -153,7 +156,7 @@ void PowerJuiceUI::imageButtonClicked(ImageButton* button, int)
     if (button != fButtonAbout)
         return;
 
-    fAboutWindow.exec();
+    fAboutWindow.runAsModal();
 }
 
 void PowerJuiceUI::imageKnobDragStarted(ImageKnob* knob)
@@ -213,7 +216,9 @@ void PowerJuiceUI::uiIdle()
 
 void PowerJuiceUI::onDisplay()
 {
-    fImgBackground.draw();
+    const GraphicsContext& context(getGraphicsContext());
+
+    fImgBackground.draw(context);
 
     if (dsp == nullptr)
         return;

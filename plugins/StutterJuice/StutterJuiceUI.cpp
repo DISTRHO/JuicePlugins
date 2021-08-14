@@ -81,6 +81,9 @@ StutterJuiceUI::StutterJuiceUI()
 
     // set default values
     programLoaded(0);
+
+    // automatically-scale
+    setGeometryConstraints(StutterJuiceArtwork::backgroundWidth, StutterJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------
@@ -112,7 +115,7 @@ void StutterJuiceUI::imageButtonClicked(ImageButton* button, int)
     if (button != fButtonAbout)
         return;
 
-    fAboutWindow.exec();
+    fAboutWindow.runAsModal();
 }
 
 void StutterJuiceUI::imageSliderDragStarted(ImageSlider* slider)
@@ -132,10 +135,12 @@ void StutterJuiceUI::imageSliderValueChanged(ImageSlider* slider, float value)
 
 void StutterJuiceUI::onDisplay()
 {
-    fImgBackground.draw();
+    const GraphicsContext& context(getGraphicsContext());
+
+    fImgBackground.draw(context);
 
     drawLFOs();
-    fImgOverlay.draw();
+    fImgOverlay.draw(context);
 }
 
 // -----------------------------------------------------------------------

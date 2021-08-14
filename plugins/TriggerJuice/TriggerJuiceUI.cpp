@@ -98,6 +98,9 @@ TriggerJuiceUI::TriggerJuiceUI()
 
     // set default values
     programLoaded(0);
+
+    // automatically-scale
+    setGeometryConstraints(TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------

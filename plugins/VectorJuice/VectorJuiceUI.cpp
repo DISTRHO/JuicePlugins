@@ -25,11 +25,9 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 VectorJuiceUI::VectorJuiceUI()
-    : UI(),
+    : UI(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight),
       fAboutWindow(this)
 {
-    setSize(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight);
-
     // xy params
     paramX = paramY = 0.5f;
 
@@ -186,6 +184,9 @@ VectorJuiceUI::VectorJuiceUI()
 
     // set default values
     programLoaded(0);
+
+    // automatically-scale
+    setGeometryConstraints(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------
@@ -303,7 +304,7 @@ void VectorJuiceUI::imageButtonClicked(ImageButton* button, int)
     if (button != fButtonAbout)
         return;
 
-    fAboutWindow.exec();
+    fAboutWindow.runAsModal();
 }
 
 void VectorJuiceUI::imageKnobDragStarted(ImageKnob* knob)
@@ -338,7 +339,9 @@ void VectorJuiceUI::imageSliderValueChanged(ImageSlider* slider, float value)
 
 void VectorJuiceUI::onDisplay()
 {
-    fImgBackground.draw();
+    const GraphicsContext& context(getGraphicsContext());
+
+    fImgBackground.draw(context);
 
     // get x, y mapped to XY area
     int x = fCanvasArea.getX() + paramX*fCanvasArea.getWidth() - fImgRoundlet.getWidth()/2;

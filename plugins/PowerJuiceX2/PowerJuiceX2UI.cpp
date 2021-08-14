@@ -101,6 +101,9 @@ PowerJuiceX2UI::PowerJuiceX2UI()
 
     // set default values
     programLoaded(0);
+
+    // automatically-scale
+    setGeometryConstraints(PowerJuiceX2Artwork::backgroundWidth, PowerJuiceX2Artwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------
@@ -153,7 +156,7 @@ void PowerJuiceX2UI::imageButtonClicked(ImageButton* button, int)
     if (button != fButtonAbout)
         return;
 
-    fAboutWindow.exec();
+    fAboutWindow.runAsModal();
 }
 
 void PowerJuiceX2UI::imageKnobDragStarted(ImageKnob* knob)
@@ -213,7 +216,9 @@ void PowerJuiceX2UI::uiIdle()
 
 void PowerJuiceX2UI::onDisplay()
 {
-    fImgBackground.draw();
+    const GraphicsContext& context(getGraphicsContext());
+
+    fImgBackground.draw(context);
 
     if (dsp == nullptr)
         return;
