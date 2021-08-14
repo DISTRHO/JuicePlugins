@@ -27,7 +27,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 PowerJuiceUI::PowerJuiceUI()
-    : UI(PowerJuiceArtwork::backgroundWidth, PowerJuiceArtwork::backgroundHeight),
+    : UI(PowerJuiceArtwork::backgroundWidth, PowerJuiceArtwork::backgroundHeight, true),
       fAboutWindow(this),
       dsp((PowerJuicePlugin*)getPluginInstancePointer())
 {
@@ -101,9 +101,6 @@ PowerJuiceUI::PowerJuiceUI()
 
     // set default values
     programLoaded(0);
-
-    // automatically-scale
-    setGeometryConstraints(PowerJuiceArtwork::backgroundWidth, PowerJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------

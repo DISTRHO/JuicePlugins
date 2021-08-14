@@ -26,7 +26,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 StutterJuiceUI::StutterJuiceUI()
-    : UI(StutterJuiceArtwork::backgroundWidth, StutterJuiceArtwork::backgroundHeight),
+    : UI(StutterJuiceArtwork::backgroundWidth, StutterJuiceArtwork::backgroundHeight, true),
       fAboutWindow(this)
 {
 	// background
@@ -81,9 +81,6 @@ StutterJuiceUI::StutterJuiceUI()
 
     // set default values
     programLoaded(0);
-
-    // automatically-scale
-    setGeometryConstraints(StutterJuiceArtwork::backgroundWidth, StutterJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------

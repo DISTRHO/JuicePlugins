@@ -25,7 +25,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 VectorJuiceUI::VectorJuiceUI()
-    : UI(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight),
+    : UI(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight, true),
       fAboutWindow(this)
 {
     // xy params
@@ -184,9 +184,6 @@ VectorJuiceUI::VectorJuiceUI()
 
     // set default values
     programLoaded(0);
-
-    // automatically-scale
-    setGeometryConstraints(VectorJuiceArtwork::backgroundWidth, VectorJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------

@@ -27,7 +27,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 TriggerJuiceUI::TriggerJuiceUI()
-    : UI(TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight),
+    : UI(TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight, true),
       fAboutWindow(this)
 {
     // background
@@ -98,9 +98,6 @@ TriggerJuiceUI::TriggerJuiceUI()
 
     // set default values
     programLoaded(0);
-
-    // automatically-scale
-    setGeometryConstraints(TriggerJuiceArtwork::backgroundWidth, TriggerJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------

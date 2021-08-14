@@ -23,7 +23,7 @@ START_NAMESPACE_DISTRHO
 // -----------------------------------------------------------------------
 
 WobbleJuiceUI::WobbleJuiceUI()
-    : UI(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight),
+    : UI(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight, true),
       fAboutWindow(this)
 {
     // background
@@ -100,9 +100,6 @@ WobbleJuiceUI::WobbleJuiceUI()
 
     // set default values
     programLoaded(0);
-
-    // automatically-scale
-    setGeometryConstraints(WobbleJuiceArtwork::backgroundWidth, WobbleJuiceArtwork::backgroundHeight, true, true);
 }
 
 // -----------------------------------------------------------------------
