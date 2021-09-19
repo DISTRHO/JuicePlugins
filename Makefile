@@ -18,7 +18,6 @@ endif
 plugins: dgl
 	$(MAKE) all -C plugins/PowerJuice
 	$(MAKE) all -C plugins/PowerJuiceX2
-	$(MAKE) all -C plugins/StutterJuice
 	$(MAKE) all -C plugins/TriggerJuice
 	$(MAKE) all -C plugins/VectorJuice
 	$(MAKE) all -C plugins/WobbleJuice
