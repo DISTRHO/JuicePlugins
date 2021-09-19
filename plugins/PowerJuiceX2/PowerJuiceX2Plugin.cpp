@@ -26,6 +26,9 @@ START_NAMESPACE_DISTRHO
 PowerJuiceX2Plugin::PowerJuiceX2Plugin()
     : Plugin(paramCount, 1, 0) // 1 program, 0 states
 {
+    std::memset(&RMSStack, 0, sizeof(RMSStack));
+    std::memset(&lookaheadStack, 0, sizeof(lookaheadStack));
+
     // set default values
     loadProgram(0);
 
@@ -35,8 +38,8 @@ PowerJuiceX2Plugin::PowerJuiceX2Plugin()
 
 PowerJuiceX2Plugin::~PowerJuiceX2Plugin()
 {
-	free(lookaheadStack.data);
-	free(RMSStack.data);
+	std::free(RMSStack.data);
+	std::free(lookaheadStack.data);
 }
 
 // -----------------------------------------------------------------------
@@ -208,9 +211,11 @@ void PowerJuiceX2Plugin::loadProgram(uint32_t index)
     
     
     kFloatRMSStackCount = 400.0f/44100.0f*getSampleRate();
+    std::free(RMSStack.data);
     RMSStack.data = (float*) calloc(kFloatRMSStackCount, sizeof(float));
     
     kFloatLookaheadStackCount = 800.0f/44100.0f*getSampleRate();
+    std::free(lookaheadStack.data);
     lookaheadStack.data = (float*) calloc(kFloatLookaheadStackCount, sizeof(float));
     
     refreshSkip= 300.0f/44100.0f*getSampleRate();
