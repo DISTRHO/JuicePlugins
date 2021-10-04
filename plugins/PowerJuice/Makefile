@@ -27,6 +27,6 @@ include ../../dpf/Makefile.plugins.mk
 # --------------------------------------------------------------
 # Enable all possible plugin types
 
-all: jack lv2 vst2
+all: jack lv2 vst2 vst3
 
 # --------------------------------------------------------------

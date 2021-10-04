@@ -28,6 +28,6 @@ include ../../dpf/Makefile.plugins.mk
 # --------------------------------------------------------------
 # Enable all possible plugin types
 
-all: jack lv2_sep vst2
+all: jack lv2_sep vst2 vst3
 
 # --------------------------------------------------------------
