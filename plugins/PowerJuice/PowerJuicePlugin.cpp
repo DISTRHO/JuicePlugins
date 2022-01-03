@@ -50,7 +50,7 @@ void PowerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
     switch (index)
     {
     case paramAttack:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Attack";
         parameter.symbol     = "att";
         parameter.unit       = "ms";
@@ -59,7 +59,7 @@ void PowerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 1000.0f;
         break;
     case paramRelease:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Release";
         parameter.symbol     = "rel";
         parameter.unit       = "ms";
@@ -68,7 +68,7 @@ void PowerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 1000.0f;
         break;
     case paramThreshold:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Threshold";
         parameter.symbol     = "thr";
         parameter.unit       = "dB";
@@ -77,7 +77,7 @@ void PowerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 0.0f;
         break;
     case paramRatio:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Ratio";
         parameter.symbol     = "rat";
         parameter.unit       = "";
@@ -86,7 +86,7 @@ void PowerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 10.0f;
         break;
     case paramMakeup:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Make-Up";
         parameter.symbol     = "mak";
         parameter.unit       = "";
@@ -95,7 +95,7 @@ void PowerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         parameter.ranges.max = 20.0f;
         break;
     case paramMix:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Mix";
         parameter.symbol     = "Mix";
         parameter.unit       = "";

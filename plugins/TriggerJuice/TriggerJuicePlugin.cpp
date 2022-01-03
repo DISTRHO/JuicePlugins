@@ -49,7 +49,7 @@ void TriggerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
     switch (index)
     {
     case paramAttack:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Attack";
         parameter.symbol     = "att";
         parameter.unit       = "seconds";
@@ -59,7 +59,7 @@ void TriggerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramRelease:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Release";
         parameter.symbol     = "rel";
         parameter.unit       = "seconds";
@@ -69,7 +69,7 @@ void TriggerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramRev:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Reverse";
         parameter.symbol     = "rev";
         parameter.unit       = "";
@@ -79,7 +79,7 @@ void TriggerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramSplit:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "Split";
         parameter.symbol     = "spl";
         parameter.unit       = "";
@@ -89,7 +89,7 @@ void TriggerJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
         break;
 
     case paramMS:
-        parameter.hints      = kParameterIsAutomable;
+        parameter.hints      = kParameterIsAutomatable;
         parameter.name       = "M/S";
         parameter.symbol     = "ms";
         parameter.unit       = "";

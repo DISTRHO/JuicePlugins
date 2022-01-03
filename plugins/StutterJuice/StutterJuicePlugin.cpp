@@ -45,7 +45,7 @@ void StutterJuicePlugin::initParameter(uint32_t index, Parameter& parameter)
 {
 
 	if (index<26) {
-		parameter.hints      = kParameterIsAutomable;
+		parameter.hints      = kParameterIsAutomatable;
 		parameter.name       = "";
 		parameter.symbol     = "";
 		parameter.unit       = "";
