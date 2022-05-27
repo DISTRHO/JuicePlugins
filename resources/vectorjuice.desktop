@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=VectorJuice
+Comment=VectorJuice
+Exec=VectorJuice
+Terminal=false
+Icon=vectorjuice
+Type=Application
+Categories=AudioVideo;Audio;

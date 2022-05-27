@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=WobbleJuice
+Comment=WobbleJuice
+Exec=WobbleJuice
+Terminal=false
+Icon=wobblejuice
+Type=Application
+Categories=AudioVideo;Audio;

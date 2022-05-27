@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=TriggerJuice
+Comment=TriggerJuice
+Exec=TriggerJuice
+Terminal=false
+Icon=triggerjuice
+Type=Application
+Categories=AudioVideo;Audio;
