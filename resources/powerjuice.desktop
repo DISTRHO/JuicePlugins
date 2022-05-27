@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=PowerJuice
+Comment=PowerJuice
+Exec=PowerJuice
+Terminal=false
+Icon=powerjuice
+Type=Application
+Categories=AudioVideo;Audio;
